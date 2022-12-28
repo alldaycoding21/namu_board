@@ -4,3 +4,4 @@
 python==3.9.12
 django==3.1.6
 djangorestframework==3.12.2
+Pillow==22.0.4
