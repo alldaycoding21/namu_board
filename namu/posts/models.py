@@ -1,6 +1,6 @@
 from django.db import models
 
-class User(models.Model):
+class Post(models.Model):
     title = models.CharField(max_length=128)
     body = models.TextField()
     image = models.ImageField(upload_to='post/', default='default.png')

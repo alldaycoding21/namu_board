@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<form action="/test/getpost" method="post">
+    <!-- 보안 문제 해결(CSRF 에러) -->
+    {% csrf_token %}
+    <input type="text" name="var1" placeholder="보낼 데이터1">
+    <input type="text" name="var2" placeholder="보낼 데이터2">
+    <button>전송</button>
+</form>
+
+{{ get_key }}
+{{ post_key }}
+
+</body>
+</html>
