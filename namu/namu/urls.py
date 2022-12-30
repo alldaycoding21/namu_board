@@ -23,9 +23,14 @@ import posts.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('getdatatest', posts.views.getdatatest),
-    path('postdatatest', posts.views.postdatatest),
-    path('senddatapage', posts.views.senddatapage),
-    path('test/getpost', posts.views.postdatatest),
+    # path('getdatatest', posts.views.getdatatest),
+    # path('postdatatest', posts.views.postdatatest),
+    # path('senddatapage', posts.views.senddatapage),
+    # path('test/getpost', posts.views.postdatatest),
+    path('posts/create', posts.views.create),
+    path('posts/list', posts.views.list),
+    path('posts/read/<int:bid>', posts.views.read),
+    path('posts/delete/<int:bid>', posts.views.delete),
+    path('posts/update/<int:bid>', posts.views.update),
 ]
 #  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
