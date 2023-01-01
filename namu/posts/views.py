@@ -23,11 +23,11 @@ from posts.forms import PostForm
 #     # postdatatest = "POST 테스트 화면 출력 성공"
 #     return render(request, 'senddatapage.html', post_context)
 
-def senddatapage(request):
-    # num1 = request.GET.get('var1')
-    # num2 = request.GET.get('var2')
-    # print(int(num1) + int(num2))
-    return render(request, 'senddatapage.html')
+# def senddatapage(request):
+#     num1 = request.GET.get('var1')
+#     num2 = request.GET.get('var2')
+#     print(int(num1) + int(num2))
+#     return render(request, 'senddatapage.html')
 
 def create(request):
     if request.method == 'GET':
