@@ -29,6 +29,7 @@ urlpatterns = [
     # path('test/getpost', posts.views.postdatatest),
     path('posts/create', posts.views.create),
     path('posts/list', posts.views.list),
+    # bid라는 변수를 정수로 게시글 번호로 받기
     path('posts/read/<int:bid>', posts.views.read),
     path('posts/delete/<int:bid>', posts.views.delete),
     path('posts/update/<int:bid>', posts.views.update),

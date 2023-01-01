@@ -1,76 +1,64 @@
 from django.shortcuts import render, redirect
 from posts.forms import PostForm
+from posts.models import Post
 
 # Create your views here.
-
-# def getdatatest(request):
-#     num1 = request.GET.get('var1')
-#     num2 = request.GET.get('var2')
-#     print(int(num1) + int(num2))
-
-#     get_context = { 'get_key' : int(num1) + int(num2) }
-
-#     # getdatatest = "GET 테스트 화면 출력 성공"
-#     return render(request, 'senddatapage.html', get_context)
-
-# def postdatatest(request):
-#     num1 = request.POST.get('var1')
-#     num2 = request.POST.get('var2')
-#     print(int(num1) + int(num2))
-
-#     post_context = { 'post_key' : int(num1) + int(num2) }
-
-#     # postdatatest = "POST 테스트 화면 출력 성공"
-#     return render(request, 'senddatapage.html', post_context)
-
-# def senddatapage(request):
-#     num1 = request.GET.get('var1')
-#     num2 = request.GET.get('var2')
-#     print(int(num1) + int(num2))
-#     return render(request, 'senddatapage.html')
-
 def create(request):
+    # 데이터 입력 페이지
     if request.method == 'GET':
         postForm = PostForm()
         context = {'postForm' : postForm}
+
         return render(request, 'board/create.html', context)
+
+    # 실제 데이터를 저장
     elif request.method == 'POST':
         postForm = PostForm(request.POST)
 
+        # 빠진 값이 있는지 체크
         if postForm.is_valid():
-            post = postForm.save(commit=False)
-            post.save()            
-        return redirect('/board/read/' + str(post.id))
 
-def list(requst):
+            # 데이터 저장 하기전에 체크
+            post = postForm.save(commit=False)
+                # if로 데이터 저장 확인 추가 헐 곳
+            # 최종 데이터 저장
+            post.save()
+        return redirect('/posts/read/' + str(post.id))
+
+def list(request):
+    # ORM으로 데이터 다 가져와서 id 역순으로 정렬
     posts = Post.objects.all().order_by('-id')
     context = {'posts' : posts}
-    return render(requst, 'board/list.html', context)
+    return render(request, 'board/list.html', context)
 
-def read(requst, bid):
-    posts = Post.objects.get(id=bid)
+def read(request, bid):
+    # bid로 게시글 번호 하나만 불러오기
+    post = Post.objects.get(id=bid)
     context = {'post' : post}
-    return render(requst, 'board/list.html', context)
+    return render(request, 'board/read.html', context)
 
-def delete(requst, bid):
-    posts = Post.objects.get(id=bid)
+def delete(request, bid):
+    # 게시글 하나 삭제 후 list로 이동
+    post = Post.objects.get(id=bid)
     post.delete()
-    return redirect('/board/list')
+    return redirect('/posts/list')
 
-def update(requst, bid):
-    posts = Post.objects.get(id=bid)
-    if requst.method=="GET":
+def update(request, bid):
+    post = Post.objects.get(id=bid)
+    if request.method=="GET":
+        # 기존 양식 불러오기(instance)
         postForm = PostForm(instance=post)
         context = {'postForm' : postForm}
-        # create html 부분 수정해야함
-        return render(requst, 'board/create.html', context)
+        return render(request, 'board/update.html', context)
 
-    elif requst.method=="POST":
-        postForm = PostForm(requst.POST, instance=post)
+    elif request.method=="POST":
+        # 수정된 내용 덮어씌우기(request -> instance)
+        postForm = PostForm(request.POST, instance=post)
+        # 값이 유효한지 체크
         if postForm.is_valid():
             post = postForm.save(commit=False)
             post.save()
-        return redirect('/board/list')
+        return redirect('/posts/read/' + str(post.id))
 
 # def edit(request, id):
 #     if request.method == 'GET':
